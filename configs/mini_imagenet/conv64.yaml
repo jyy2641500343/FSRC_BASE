@@ -4,9 +4,9 @@ dataset: MiniImageNet
 image_size: 84
 normalize_mean: [0.485, 0.456, 0.406]
 normalize_std: [0.229, 0.224, 0.225]
-train_dataset_path: D:/edit/python_edit/FSRC_BASE/MiniImageNet/train
-val_dataset_path: D:/edit/python_edit/FSRC_BASE/MiniImageNet/val
-test_dataset_path: D:/edit/python_edit/FSRC_BASE/MiniImageNet/test
+train_dataset_path: D:/edit/python_edit/MiniImageNet/train
+val_dataset_path: D:/edit/python_edit/MiniImageNet/val
+test_dataset_path: D:/edit/python_edit/MiniImageNet/test
 model_type: ConvNet
 embed_size: 64
 
