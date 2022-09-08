@@ -1,0 +1,42 @@
+gpu: [0, 1]
+work_mode: train
+
+dataset: NWPU_train_val_test
+image_size: 84
+normalize_mean: [0.36801773, 0.38097873, 0.34358302]
+normalize_std: [0.14540215, 0.13558227, 0.13203649]
+train_dataset_path: ../../dataset/NWPU_train_val_test/train
+val_dataset_path: ../../dataset/NWPU_train_val_test/val
+test_dataset_path: ../../dataset/NWPU_train_val_test/test
+model_type: ResNet12
+embed_size: 640
+
+way: 5
+shot: 1
+
+num_episodes_epoch: 80
+num_eval_episodes:  600
+query: 20
+
+lr: 0.0002
+lr_mul: 20
+gamma: 0.5
+max_epoch: 80
+step_size: 50
+
+dropout: 0.5
+back_ward_step: 1
+momentum: 0.95
+weight_decay: 0.0001
+nesterov: True
+
+head: 10
+final_weight: 1
+ave_weight: 0.2
+temperature: 512
+
+checkpoint_dir: ./checkpoints
+init_weights: True
+init_weights_path: ./saves/initialization/mini-imagenet/IEPT_Res12_mini.pth
+ngpu: 1
+

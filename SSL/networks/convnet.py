@@ -12,9 +12,9 @@ def conv_block(in_channels, out_channels):
 
 class ConvNet(nn.Module): # 64
 
-    def __init__(self, args, x_dim=3, hid_dim=64, z_dim=64):
+    def __init__(self, cfg, x_dim=3, hid_dim=64, z_dim=64):
         super().__init__()
-        self.args = args
+        self.cfg = cfg
         self.encoder = nn.Sequential(
             conv_block(x_dim, hid_dim),
             conv_block(hid_dim, hid_dim),
@@ -33,7 +33,7 @@ class ConvNet(nn.Module): # 64
 
 # encoder for imagenet dataset
 class WiderConvnet(nn.Module):
-    def __init__(self, args, emb_size=128):
+    def __init__(self, cfg, emb_size=128):
         super(WiderConvnet, self).__init__()
         # set size
         self.hidden = 64

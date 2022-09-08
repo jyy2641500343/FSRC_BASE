@@ -1,0 +1,27 @@
+gpu: '1'    #'0, 1, 2, 3'
+work_mode: eval
+
+dataset: MiniImageNet
+image_size: 84
+normalize_mean: [0.485, 0.456, 0.406]
+normalize_std: [0.229, 0.224, 0.225]
+train_dataset_path: ../../dataset/MiniImageNet/train
+val_dataset_path: ../../dataset/MiniImageNet/val
+test_dataset_path: ../../dataset/MiniImageNet/test
+model_type: ConvNet
+embed_size: 64
+
+way: 5
+shot: 1
+query: 15
+seed: 999
+test_episodes: 2000
+
+dropout: 0.5
+head: 10
+temperature: 12
+
+model_name: 30_0.5_0.0001_12mom_0.95_wd_0.0001_bsz_1
+
+
+

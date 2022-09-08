@@ -10,26 +10,26 @@ import os
 
 class SSL_boost(nn.Module):
 
-    def __init__(self, args, dropout=0.2):
+    def __init__(self, cfg, dropout=0.2):
         super().__init__()
-        self.args = args
+        self.cfg = cfg
 
-        if args.model_type == 'ConvNet':
+        if cfg['model_type'] == 'ConvNet': 
             from SSL.networks.convnet import ConvNet
-            cnn_dim = args.embed_size
-            self.encoder = ConvNet(args, z_dim=cnn_dim)
+            cnn_dim = cfg['embed_size']
+            self.encoder = ConvNet(cfg, z_dim=cnn_dim)
 
-        elif args.model_type == 'ResNet12':
+        elif cfg['model_type'] == 'ResNet12':
             from SSL.networks.ResNet12_embedding import resnet12
             self.encoder = resnet12()
-            cnn_dim = args.embed_size
+            cnn_dim = cfg['embed_size']
 
         else:
             raise ValueError('')
 
         z_dim = cnn_dim
         
-        self.slf_attn = MultiHeadAttention(args, args.head, z_dim, z_dim, z_dim, dropout=dropout, do_activation=True) 
+        self.slf_attn = MultiHeadAttention(cfg, cfg['head'], z_dim, z_dim, z_dim, dropout=dropout, do_activation=True) 
 
 
         self.KDloss = nn.KLDivLoss(reduce=True)  # logitis_aug = F.log_softmax(logitis_aug, -1)
@@ -54,7 +54,7 @@ class SSL_boost(nn.Module):
     def fsl_module_per_task(self, support, query): # fsl for a single task
         # input: images tensor
 
-        N, K, Q = self.args.way, self.args.shot, self.args.query
+        N, K, Q = self.cfg['way'], self.cfg['shot'], self.cfg['query']
         input_tensor = torch.cat([support, query], 0)
         output = self.encoder(input_tensor)
         support = output[:support.size(0)]
@@ -63,7 +63,7 @@ class SSL_boost(nn.Module):
         
         proto = support.reshape(K, -1, support.shape[-1]).mean(dim=0) # N x d
         logitis = euclidean_metric(query, proto)
-        logitis = logitis / self.args.temperature
+        logitis = logitis / self.cfg['temperature']
         #print(logitis)
 
 
@@ -74,7 +74,7 @@ class SSL_boost(nn.Module):
     
     def forward(self, support, query, mode = 'test'):
 
-        N, K, Q = self.args.way, self.args.shot, self.args.query
+        N, K, Q = self.cfg['way'], self.cfg['shot'], self.cfg['query']
         support_s, query_s = self.expend_tasks(support, query)
         ## prepare label for these tasks
         ## 1st:  rotation label
@@ -125,7 +125,7 @@ class SSL_boost(nn.Module):
         
         proto = trans_support.reshape(K, -1, trans_support.shape[-1]).mean(dim=0) # N x d
         logitis = euclidean_metric(trans_query, proto) 
-        logitis = logitis / self.args.temperature 
+        logitis = logitis / self.cfg['temperature'] 
 
         final_loss = F.cross_entropy(logitis, fsl_label)
         

@@ -30,7 +30,7 @@ class ScaledDotProductAttention(nn.Module):
 class MultiHeadAttention(nn.Module): # for 64 channel
     ''' Multi-Head Attention module '''
 
-    def __init__(self, args, n_head, d_model, d_k, d_v, dropout=0.1, do_activation=True):
+    def __init__(self, cfg, n_head, d_model, d_k, d_v, dropout=0.1, do_activation=True):
         super().__init__()
         self.n_head = n_head
         self.d_k = d_k

@@ -1,31 +1,37 @@
 import torch
 import os
 import numpy as np
+import argparse
 
-lines = [x.strip() for x in open('train.csv', 'r').readlines()][1:]
-data = []
-label = []
-lb = -1
+from termcolor import colored
+from utils.config import create_config
 
-wnids_list = []
+from SSL.models.ssl_proto import SSL_boost
 
-for l in lines:
-    name, wnid = l.split(',')
-    path = name
-    if wnid not in wnids_list:
-        wnids_list.append(wnid)
-        lb += 1
-    data.append(path)
-    label.append(lb)
 
-label = np.array(label)
-m_ind = []
-for i in range(max(label) + 1):
-    ind = np.argwhere(label == i).reshape(-1)
-    ind = torch.from_numpy(ind)
-    m_ind.append(ind)
 
-x = []
-for i in range(10):
-    x.append(i)
-print(m_ind[1])
+def main():
+    # Retrieve config file
+    cfg = create_config(args.config_env, args.config_exp)
+    print(colored(cfg, 'yellow'))
+
+    model = SSL_boost(cfg, dropout = cfg['dropout'])
+    print(model.KDloss)
+
+
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='FSRC_BASE')
+    parser.add_argument('--config_env', default='./configs/env.yaml',
+                        help='Config file for the environment')
+    parser.add_argument('--config_exp', default='./configs/mini_imagenet/resnet12.yaml',
+                        help='Config file for the experiment')
+    args = parser.parse_args()
+
+    main()

@@ -11,6 +11,8 @@ def set_gpu(x):
     os.environ['CUDA_VISIBLE_DEVICES'] = x
     print('using gpu:', x)
 
+def save_model(name, cfg, model):
+        torch.save(dict(params=model.state_dict()), os.path.join(cfg['save_path'], name + '.pth'))
 
 def ensure_path(path, remove=True):
     if os.path.exists(path):

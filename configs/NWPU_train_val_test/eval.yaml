@@ -1,0 +1,27 @@
+gpu: [0, 1]    #'0, 1, 2, 3'
+work_mode: eval
+
+dataset: NWPU_train_val_test
+image_size: 84
+normalize_mean: [0.36801773, 0.38097873, 0.34358302]
+normalize_std: [0.14540215, 0.13558227, 0.13203649]
+train_dataset_path: ../../dataset/NWPU_train_val_test/train
+val_dataset_path: ../../dataset/NWPU_train_val_test/val
+test_dataset_path: ../../dataset/NWPU_train_val_test/test
+model_type: ResNet12
+embed_size: 640
+
+way: 5
+shot: 1
+query: 15
+seed: 999
+test_episodes: 2000
+
+dropout: 0.5
+head: 10
+temperature: 12
+
+model_name: 50_0.5_0.0002_512mom_0.95_wd_0.0001_bsz_1
+
+
+

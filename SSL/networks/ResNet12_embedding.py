@@ -140,6 +140,7 @@ class ResNet(nn.Module):
         
         if avg_pool:
             self.avgpool = nn.AvgPool2d(5, stride=1)
+            # self.avgpool = nn.AdaptiveAvgPool2d(output_size=(2,2)) # 输出大小的尺寸指定为100*100
 
         self.keep_prob = keep_prob
         self.keep_avg_pool = avg_pool

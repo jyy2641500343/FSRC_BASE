@@ -9,7 +9,7 @@ from functools import partial
 import torchvision.models as torchvision_models
 import torch.utils.data.distributed
 
-from SSL.dataloader.dataset import ImageDataset
+from SSL.dataloader.dataset import ImageDataset, MiniImageNet
 
 
 def get_model(cfg, pretrain_path=None):
@@ -61,13 +61,33 @@ def get_dataset(cfg, augmentation):
     train_dataset = ImageDataset(root_path=cfg['train_dataset_path'], transform=transform, cfg=cfg)
     val_dataset = ImageDataset(root_path=cfg['val_dataset_path'], transform=transform, cfg=cfg)
     test_dataset = ImageDataset(root_path=cfg['test_dataset_path'], transform=transform, cfg=cfg)
+    
+    # train_dataset = MiniImageNet('train', cfg)
+    # val_dataset = MiniImageNet('val', cfg)
+    # test_dataset = MiniImageNet('test', cfg)
 
     return train_dataset, val_dataset, test_dataset
 
 def get_transformation(cfg):
-    augmentation = [
-        transforms.Resize(92),
-        transforms.CenterCrop(cfg['image_size'])
-    ]
+    if cfg['dataset'] == 'MiniImageNet':
+        augmentation = [
+            transforms.Resize(92),
+            transforms.CenterCrop(cfg['image_size'])
+        ]
+    elif cfg['dataset'] == 'NWPU_train_val_test':
+        augmentation = [
+            transforms.Resize(cfg['image_size']+int(0*cfg['image_size'])),
+            transforms.CenterCrop(cfg['image_size'])
+        ]
+    elif cfg['dataset'] == 'UCMerced_LandUse':
+        augmentation = [
+            transforms.Resize(cfg['image_size']+int(0*cfg['image_size'])),
+            transforms.CenterCrop(cfg['image_size'])
+        ]
+    elif cfg['dataset'] == 'WHU_RS19':
+        augmentation = [
+            transforms.Resize(cfg['image_size']+int(0*cfg['image_size'])),
+            transforms.CenterCrop(cfg['image_size'])
+        ]
     
     return augmentation
