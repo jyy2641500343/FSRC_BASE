@@ -33,7 +33,7 @@ nesterov: True
 head: 10
 final_weight: 1
 ave_weight: 0.2
-temperature: 512
+temperature: 256
 
 checkpoint_dir: ./checkpoints
 init_weights: True
